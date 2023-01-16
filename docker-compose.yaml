@@ -1,0 +1,22 @@
+services:
+  backend_django:
+    build: ./backend     
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/backend
+    command: bash -c "python manage.py runserver 0.0.0.0:8000"
+  
+  backend_node:
+    build: ./backend_node       
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./backend_node:/backend_node
+
+  web:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/frontend
