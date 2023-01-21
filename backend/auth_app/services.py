@@ -36,6 +36,6 @@ def getQRCodeService(user):
 
 	user.otp_base32 = otp_base32
 	user.save()
-	qr_code = requests.post('http://localhost:8001/get-qr-code/', json = {'otp_auth_url': otp_auth_url}).json()
+	qr_code = requests.post('http://backend_node:8001/get-qr-code/', json = {'otp_auth_url': otp_auth_url}).json()
 	
 	return qr_code['qr_code_link']

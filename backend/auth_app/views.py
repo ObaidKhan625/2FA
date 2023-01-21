@@ -11,9 +11,13 @@ from rest_framework.decorators import api_view
 
 class Set2FAView(APIView):
 	def post(self, request):
+		"""
+		Get the user, create a auth_url for them and convert it to a QR code using Node, the image is returned
+		here and displayed in the frontend
+		"""
 		user = getUserService(request)
 		if user == None:
-			return Response({"status": "fail", "message": f"No user with the corresponding username and password exists" }, 
+			return Response({"status": "Used id is invalid", "message": f"No user with the corresponding usern id exists" }, 
 				status=status.HTTP_404_NOT_FOUND)
 		
 		qr_code = getQRCodeService(user)
@@ -24,9 +28,12 @@ class Verify2FAView(APIView):
 	queryset = User.objects.all()
 
 	def post(self, request):
+		"""
+		Get the user, take the otp associated with them and verify it against the otp entered
+		"""
 		user = getUserService(request)
 		if user == None:
-			return Response({ "status": "Verification failed", "message": f"No user with the corresponding username and password exists"}, 
+			return Response({ "status": "Verification failed", "message": f"No user with the corresponding usern id exists"}, 
 				status=status.HTTP_404_NOT_FOUND)
 
 		valid_otp = getOTPValidityService(user, request.data.get('otp', None))
@@ -40,6 +47,9 @@ class RegisterView(APIView):
 	queryset = User.objects.all()
 
 	def post(self, request):
+		"""
+		Register View
+		"""
 		serializer = self.serializer_class(data = request.data)
 		if serializer.is_valid():
 			serializer.save()
@@ -51,6 +61,9 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
 	def post(self, request, *args, **kwargs):
+		"""
+		Login View
+		"""
 		user = getLoginUserService(request)
 		if user == None:
 			return Response({
@@ -62,6 +75,9 @@ class LoginView(APIView):
 
 @api_view(['POST'])
 def isLoggedIn(request):
+	"""
+	Check if user is logged in
+	"""
 	user = getUserService(request)
 	if user == None:
 		return Response({ "user_null": True }, status=status.HTTP_404_NOT_FOUND)

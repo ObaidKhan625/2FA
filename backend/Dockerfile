@@ -1,12 +1,13 @@
-FROM  python:3.8.13-bullseye
+FROM  python:3.9-alpine
 
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /backend
 
+COPY requirements.txt /backend/requirements.txt
+
 RUN pip install -r requirements.txt
 
-# copy from the current directory of the Dockerfile to /backend in the image
-COPY . .
+COPY . /backend
 
-EXPOSE 8000
+CMD python manage.py runserver 0.0.0.0:8000
