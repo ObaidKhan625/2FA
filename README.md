@@ -1,7 +1,7 @@
 # 2FA
 
 I have made login/sign up using 2 factor authentication. React and Django are the frontend and backend frameworks used. 
-I have used Node/js too for generating  a qr code image, 
+I have used Node.js too for generating a qr code image, 
 this didn't seem to be possible using Python/Django from the pyotp documentation.
 
 ## Steps to run (Docker required)
